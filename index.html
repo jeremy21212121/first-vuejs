@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My First VueJS Project</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+
+    <div id="app">
+      {{message}}
+<br>
+
+      <div id="edit" v-if="edit">
+        <div v-for="(item,index) in items">
+          <input v-model="item.val">
+          <button :id="index" v-on:click="deleteItem(index)" class="close"> X </button>
+        </div>
+      </div>
+      <ul v-else>
+        <!-- v-if="items.length" -->
+        <li v-for="item in items">
+          {{item.val}}
+        </li>
+      </ul>
+      <!-- <p v-else>No items found</p> -->
+      <input v-model="newItem" placeholder="New list item">
+      <button v-on:click="addToEnd">Add new item to end</button>
+      <button v-on:click="addToBeginning">Add new item to beginning</button>
+      <label id="edit-list">
+        <input type="checkbox" v-model="edit">edit list
+      </label>
+
+    </div>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          message: 'To-Do List with VueJS',
+          edit: false,
+          items:[{val:"Straw"},{val:"Twine"},{val:"Milk"},{val:"Eggs"}],
+          newItem: ''
+            // ["Straw","Twine","Milk","Eggs"]
+        },
+        methods: {
+          addToEnd: function() {
+            console.log("Adding " + app.newItem + " to the end");
+            app.items.push({val: app.newItem});
+            app.newItem = '';
+          },
+           addToBeginning: function() {
+             console.log("Adding " + app.newItem + " to the beginning");
+             app.items.unshift({val: app.newItem});
+             app.newItem = '';
+           },
+           deleteItem: function(index) {
+             console.log("deleting # " + app.items[index].val);
+             app.items.splice(index, 1);
+           }
+
+
+        }
+      })
+
+
+    </script>
+  </body>
+</html>
