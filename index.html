@@ -11,26 +11,29 @@
       {{message}}
 <br>
 
-      <div id="edit" v-if="edit">
+      <div id="edit" v-show="edit">
         <div v-for="(item,index) in items">
           <input v-model="item.val">
           <button :id="index" v-on:click="deleteItem(index)" class="close"> X </button>
         </div>
       </div>
-      <ul v-else>
-        <!-- v-if="items.length" -->
-        <li v-for="item in items">
-          {{item.val}}
-        </li>
-      </ul>
-      <!-- <p v-else>No items found</p> -->
+
+        <ul v-show="!edit">
+          <li v-for="item in items">
+            {{item.val}}
+          </li>
+        </ul>
+
+
+
       <input v-model="newItem" placeholder="New list item">
       <button v-on:click="addToEnd">Add new item to end</button>
       <button v-on:click="addToBeginning">Add new item to beginning</button>
-      <label id="edit-list">
-        <input type="checkbox" v-model="edit">edit list
-      </label>
 
+      <label id="edit-list">
+        <input type="checkbox" v-model="edit">
+        edit list
+      </label>
     </div>
 
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
