@@ -8,27 +8,32 @@
   <body>
 
     <div id="app">
-      {{message}}
-<br>
 
-      <div id="edit" v-show="edit">
-        <div v-for="(item,index) in items">
-          <input v-model="item.val">
-          <button :id="index" v-on:click="deleteItem(index)" class="close"> X </button>
-        </div>
-      </div>
+      <h2>
+        {{message}}
+      </h2>
 
+<!--if edit is false, the list is shown  -->
         <ul v-show="!edit">
           <li v-for="item in items">
-            {{item.val}}
+            {{item.value}}
           </li>
         </ul>
 
 
+<!-- if edit is true, the "edit view" is shown -->
+        <div id="edit" v-show="edit">
+          <div v-for="(item,index) in items">
+            <input v-model="item.value">
+            <button :id="index" v-on:click="deleteItem(index)" class="close"> X </button>
+          </div>
+        </div>
 
+
+<!-- for adding items to the list -->
       <input v-model="newItem" placeholder="New list item">
-      <button v-on:click="addToEnd">Add new item to end</button>
-      <button v-on:click="addToBeginning">Add new item to beginning</button>
+      <button v-on:click="addToEnd">Append new item</button>
+      <button v-on:click="addToBeginning">Prepend new item</button>
 
       <label id="edit-list">
         <input type="checkbox" v-model="edit">
@@ -40,30 +45,42 @@
     <script>
       var app = new Vue({
         el: '#app',
+
         data: {
           message: 'To-Do List with VueJS',
           edit: false,
-          items:[{val:"Straw"},{val:"Twine"},{val:"Milk"},{val:"Eggs"}],
+//Sample/initial items for the list
+          items:[{value:"Straw"},{value:"Twine"},{value:"Milk"},{value:"Eggs"}],
           newItem: ''
-            // ["Straw","Twine","Milk","Eggs"]
         },
+
+//these methods should be fairly self-explanatory :)
         methods: {
+
           addToEnd: function() {
-            console.log("Adding " + app.newItem + " to the end");
-            app.items.push({val: app.newItem});
-            app.newItem = '';
+            if (app.newItem !== '') {
+              console.log("Adding " + app.newItem + " to the end");
+              app.items.push({value: app.newItem});
+              app.newItem = '';
+            } else {
+              console.log("You can't add an empty string to the list!");
+            }
           },
+
            addToBeginning: function() {
-             console.log("Adding " + app.newItem + " to the beginning");
-             app.items.unshift({val: app.newItem});
-             app.newItem = '';
+             if (app.newItem !== '') {
+               console.log("Adding " + app.newItem + " to the beginning");
+               app.items.unshift({value: app.newItem});
+               app.newItem = '';
+             } else {
+               console.log("You can't add an empty string to the list!");
+             }
            },
+
            deleteItem: function(index) {
-             console.log("deleting # " + app.items[index].val);
+             console.log("deleting # " + app.items[index].value);
              app.items.splice(index, 1);
            }
-
-
         }
       })
 
